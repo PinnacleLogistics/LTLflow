@@ -1,164 +1,66 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const nodemailer = require('nodemailer');
-const path = require('path');
-const app = express();
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warehouse Pallet Measurement</title>
+</head>
+<body>
+    <form action="/submit" method="post">
+        <div>
+            <label for="orderNumber">Sales Order #:</label>
+            <input type="text" id="orderNumber" name="orderNumber" required>
+        </div>
+        <div>
+            <label for="palletNumber">Number of Pallets:</label>
+            <input type="number" id="palletNumber" name="palletNumber" required>
+        </div>
+        <div id="checkboxFields">
+            <label>Banding Used:</label>
+            <input type="checkbox" id="bandingUsed" name="bandingUsed"><br>
 
-// Middleware to parse incoming requests
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+            <label>Corner Protectors Used:</label>
+            <input type="checkbox" id="cornerProtectorsUsed" name="cornerProtectorsUsed"><br>
 
-// Serve the HTML form
-app.get('/', (req, res) => {
-    res.send(`
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Warehouse Pallet Measurement</title>
-        </head>
-        <body>
-            <form action="/submit" method="post">
-                <div>
-                    <label for="orderNumber">Sales Order #:</label>
-                    <input type="text" id="orderNumber" name="orderNumber" required>
-                </div>
-                <div>
-                    <label for="palletNumber">Number of Pallets:</label>
-                    <input type="number" id="palletNumber" name="palletNumber" required>
-                </div>
-                <div id="checkboxFields">
-                    <label>Banding Used:</label>
-                    <input type="checkbox" id="bandingUsed" name="bandingUsed"><br>
+            <label>Shrink Wrapped:</label>
+            <input type="checkbox" id="shrinkWrapped" name="shrinkWrapped"><br>
 
-                    <label>Corner Protectors Used:</label>
-                    <input type="checkbox" id="cornerProtectorsUsed" name="cornerProtectorsUsed"><br>
+            <label>Used Longest/Widest points for measurements:</label>
+            <input type="checkbox" id="longestWidestPoints" name="longestWidestPoints"><br>
 
-                    <label>Shrink Wrapped:</label>
-                    <input type="checkbox" id="shrinkWrapped" name="shrinkWrapped"><br>
+            <label>Measured to the nearest 1/10th inch:</label>
+            <input type="checkbox" id="nearestTenthInch" name="nearestTenthInch"><br>
 
-                    <label>Used Longest/Widest points for measurements:</label>
-                    <input type="checkbox" id="longestWidestPoints" name="longestWidestPoints"><br>
+            <label>Boxes are NOT damaged:</label>
+            <input type="checkbox" id="boxesNotDamaged" name="boxesNotDamaged"><br>
+        </div>
+        <div id="palletSections"></div>
 
-                    <label>Measured to the nearest 1/10th inch:</label>
-                    <input type="checkbox" id="nearestTenthInch" name="nearestTenthInch"><br>
+        <button type="submit">Send to Office for Booking</button>
+    </form>
 
-                    <label>Boxes are NOT damaged:</label>
-                    <input type="checkbox" id="boxesNotDamaged" name="boxesNotDamaged"><br>
-                </div>
-                <div id="palletSections"></div>
+    <script>
+        document.getElementById('palletNumber').addEventListener('input', function() {
+            const palletNumber = document.getElementById('palletNumber').value;
+            const palletSectionsDiv = document.getElementById('palletSections');
+            palletSectionsDiv.innerHTML = ''; // Clear previous sections
 
-                <button type="submit">Send to Office for Booking</button>
-            </form>
-
-            <script>
-                document.getElementById('palletNumber').addEventListener('input', function() {
-                    const palletNumber = document.getElementById('palletNumber').value;
-                    const palletSectionsDiv = document.getElementById('palletSections');
-                    palletSectionsDiv.innerHTML = ''; // Clear previous sections
-
-                    for(let i = 1; i <= palletNumber; i++) {
-                        const section = document.createElement('div');
-                        section.innerHTML = \`
-                            <h3>Pallet \${i}</h3>
-                            <label>Length (inches):</label>
-                            <input type="number" step="0.1" name="length\${i}"><br>
-                            <label>Width (inches):</label>
-                            <input type="number" step="0.1" name="width\${i}"><br>
-                            <label>Height (inches):</label>
-                            <input type="number" step="0.1" name="height\${i}"><br>
-                            <label>Weight (lbs):</label>
-                            <input type="number" step="0.1" name="weight\${i}"><br>
-                        \`;
-                        palletSectionsDiv.appendChild(section);
-                    }
-                });
-            </script>
-        </body>
-        </html>
-    `);
-});
-
-// Handle form submission
-app.post('/submit', (req, res) => {
-    const orderDetails = {
-        orderNumber: req.body.orderNumber,
-        palletNumber: req.body.palletNumber,
-        bandingUsed: req.body.bandingUsed === 'on',
-        cornerProtectorsUsed: req.body.cornerProtectorsUsed === 'on',
-        shrinkWrapped: req.body.shrinkWrapped === 'on',
-        longestWidestPoints: req.body.longestWidestPoints === 'on',
-        nearestTenthInch: req.body.nearestTenthInch === 'on',
-        boxesNotDamaged: req.body.boxesNotDamaged === 'on',
-        pallets: []
-    };
-
-    for (let i = 1; i <= orderDetails.palletNumber; i++) {
-        orderDetails.pallets.push({
-            length: req.body[`length\${i}`],
-            width: req.body[`width\${i}`],
-            height: req.body[`height\${i}`],
-            weight: req.body[`weight\${i}`]
+            for(let i = 1; i <= palletNumber; i++) {
+                const section = document.createElement('div');
+                section.innerHTML = `
+                    <h3>Pallet ${i}</h3>
+                    <label>Length (inches):</label>
+                    <input type="number" step="0.1" name="length${i}"><br>
+                    <label>Width (inches):</label>
+                    <input type="number" step="0.1" name="width${i}"><br>
+                    <label>Height (inches):</label>
+                    <input type="number" step="0.1" name="height${i}"><br>
+                    <label>Weight (lbs):</label>
+                    <input type="number" step="0.1" name="weight${i}"><br>
+                `;
+                palletSectionsDiv.appendChild(section);
+            }
         });
-    }
-
-    sendEmail(orderDetails).then(() => {
-        res.send('Email sent successfully!');
-    }).catch(err => {
-        res.send('Failed to send email: ' + err.message);
-    });
-});
-
-async function sendEmail(orderDetails) {
-    let transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: 'nick@pinnacleteam.com',  // Google Workspace email
-            pass: 'Pinteam500k!!'            // Email account password or app-specific password
-        }
-    });
-
-    let mailOptions = {
-        from: 'bedtech@pinnacleteam.com',
-        to: 'nick.jarvis@priority1inc.net',
-        subject: 'New Pallet Measurement Submission',
-        html: generateEmailContent(orderDetails)
-    };
-
-    return transporter.sendMail(mailOptions);
-}
-
-function generateEmailContent(orderDetails) {
-    let emailBody = `
-        <h2>Order Details</h2>
-        <p><strong>Sales Order #:</strong> ${orderDetails.orderNumber}</p>
-        <p><strong>Number of Pallets:</strong> ${orderDetails.palletNumber}</p>
-        <h3>Checklist</h3>
-        <p><strong>Banding Used:</strong> ${orderDetails.bandingUsed ? 'Yes' : 'No'}</p>
-        <p><strong>Corner Protectors Used:</strong> ${orderDetails.cornerProtectorsUsed ? 'Yes' : 'No'}</p>
-        <p><strong>Shrink Wrapped:</strong> ${orderDetails.shrinkWrapped ? 'Yes' : 'No'}</p>
-        <p><strong>Used Longest/Widest points for measurements:</strong> ${orderDetails.longestWidestPoints ? 'Yes' : 'No'}</p>
-        <p><strong>Measured to the nearest 1/10th inch:</strong> ${orderDetails.nearestTenthInch ? 'Yes' : 'No'}</p>
-        <p><strong>Boxes are NOT damaged:</strong> ${orderDetails.boxesNotDamaged ? 'Yes' : 'No'}</p>
-        <h3>Pallet Details</h3>
-    `;
-
-    orderDetails.pallets.forEach((pallet, index) => {
-        emailBody += `
-            <h4>Pallet ${index + 1}</h4>
-            <p><strong>Length:</strong> ${pallet.length} inches</p>
-            <p><strong>Width:</strong> ${pallet.width} inches</p>
-            <p><strong>Height:</strong> ${pallet.height} inches</p>
-            <p><strong>Weight:</strong> ${pallet.weight} lbs</p>
-        `;
-    });
-
-    return emailBody;
-}
-
-// Start the server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+    </script>
+</body>
+</html>
