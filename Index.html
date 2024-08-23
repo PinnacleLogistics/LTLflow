@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
+const path = require('path');
 const app = express();
 
 // Middleware to parse incoming requests
@@ -59,17 +60,17 @@ app.get('/', (req, res) => {
 
                     for(let i = 1; i <= palletNumber; i++) {
                         const section = document.createElement('div');
-                        section.innerHTML = `
-                            <h3>Pallet ${i}</h3>
+                        section.innerHTML = \`
+                            <h3>Pallet \${i}</h3>
                             <label>Length (inches):</label>
-                            <input type="number" step="0.1" name="length${i}"><br>
+                            <input type="number" step="0.1" name="length\${i}"><br>
                             <label>Width (inches):</label>
-                            <input type="number" step="0.1" name="width${i}"><br>
+                            <input type="number" step="0.1" name="width\${i}"><br>
                             <label>Height (inches):</label>
-                            <input type="number" step="0.1" name="height${i}"><br>
+                            <input type="number" step="0.1" name="height\${i}"><br>
                             <label>Weight (lbs):</label>
-                            <input type="number" step="0.1" name="weight${i}"><br>
-                        `;
+                            <input type="number" step="0.1" name="weight\${i}"><br>
+                        \`;
                         palletSectionsDiv.appendChild(section);
                     }
                 });
@@ -95,10 +96,10 @@ app.post('/submit', (req, res) => {
 
     for (let i = 1; i <= orderDetails.palletNumber; i++) {
         orderDetails.pallets.push({
-            length: req.body[`length${i}`],
-            width: req.body[`width${i}`],
-            height: req.body[`height${i}`],
-            weight: req.body[`weight${i}`]
+            length: req.body[`length\${i}`],
+            width: req.body[`width\${i}`],
+            height: req.body[`height\${i}`],
+            weight: req.body[`weight\${i}`]
         });
     }
 
