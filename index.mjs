@@ -61,7 +61,7 @@ let btnboxes = null;
                         <div class="input_containers">
                           <label class="mylabel" for="pictureSidePalletDisplay${i}">Click Here to Upload Picture 2</label>
                           <input type="file" id="pictureSidePalletDisplay${i}" style="display:none;">
-                          <p>Side view of pallet</p>
+                          <p>Pallet on scale with display and PRO sticker visible</p>
                         </div>
                         <div class="input_containers">
                           <label class="mylabel" for="packingList${i}">Click Here to Upload Picture 3</label>
