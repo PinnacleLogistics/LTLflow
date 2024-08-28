@@ -65,15 +65,22 @@ p{
   background-color: #25ABE1;
 }
 
+.banding-container {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-radius: 10px;
+  flex-wrap: nowrap; /* Prevent wrapping */
+}
+
 .ptags {
-  background-color: #e0e0e0; 
-  color: #000000; 
-  border-radius: 5px; 
-  padding: 10px 20px; 
-  display: inline-block; 
-  font-size: 12px; 
-  text-align: center;
-  width: 60%;
+  display: flex;
+  align-items: flex-start;
+  flex-grow: 1;
+  margin-right: 15px;
+  font-size: 18px;
+  color: #333;
+  width: 70%;
 }
 
 .mybts {
@@ -82,9 +89,26 @@ p{
   border-radius: 5px; 
   padding: 9px 20px; 
   font-size: 10px; 
-  text-align: center; 
-  width: 10%;
+  margin-left: 10px; 
+  width: 30%;
 }
+
+
+@media (max-width: 600px) {
+  .banding-container {
+    flex-wrap: nowrap; /* Ensure buttons don't wrap */
+  }
+
+  .ptags {
+    font-size: 16px; /* Slightly reduce font size on smaller screens */
+  }
+
+  .mybts {
+    padding: 8px 16px; /* Slightly reduce padding on smaller screens */
+    font-size: 16px;
+  }
+}
+
 .mybts2 {
   border-radius: 15px;
   padding: 13px; 
