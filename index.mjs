@@ -250,7 +250,7 @@ async function submitForm(){
   $('#log').text('Sending pallets please wait...');
   $('#Send').hide();
   $('#log').show();
-  fetch('https://tryexpress-1jl5.onrender.com', {
+  fetch('https://tryexpress-1jl5.onrender.com/v1/', {
       method: 'POST',
       body: formData
   })
