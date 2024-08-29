@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Decoder</title>
+    <script src="https://unpkg.com/qrcode-decoder@0.3.1/dist/index.min.js"></script>
+</head>
+<body>
+    <h1>QR Code Decoder</h1>
+
+    <!-- Video element to display the camera feed -->
+    <video id="camera" width="300" height="300" autoplay></video>
+
+    <!-- Button to start decoding QR code from the video -->
+    <button id="start-decoding">Start Decoding QR Code</button>
+
+    <!-- Output for the decoded QR code data -->
+    <p id="qr-result">QR Code Data: <span id="qr-data"></span></p>
+
+    <script>
+        // Get the necessary elements
+        const video = document.getElementById('camera');
+        const qrDataOutput = document.getElementById('qr-data');
+        const startDecodingBtn = document.getElementById('start-decoding');
+
+        // Create an instance of QrcodeDecoder
+        const qr = new QrcodeDecoder();
+
+        // Access the user's camera
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+            .then(stream => {
+                video.srcObject = stream;
+            })
+            .catch(err => console.error("Error accessing camera: ", err));
+
+        // Start decoding QR code from video when the button is clicked
+        startDecodingBtn.addEventListener('click', () => {
+            qr.decodeFromVideo(video).then(res => {
+                if (res.data) {
+                    qrDataOutput.textContent = res.data; // Display the decoded data
+                    console.log('Decoded QR Code:', res.data);
+                } else {
+                    qrDataOutput.textContent = "No QR code detected.";
+                    console.log('No QR code detected');
+                }
+            }).catch(err => {
+                console.error("Error decoding QR code: ", err);
+                qrDataOutput.textContent = "Error decoding QR code.";
+            });
+        });
+    </script>
+</body>
+</html>
