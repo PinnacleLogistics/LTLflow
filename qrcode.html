@@ -10,10 +10,11 @@
     <h1>QR Code Decoder</h1>
 
     <!-- Video element to display the camera feed -->
-    <video id="camera" width="300" height="300" autoplay></video>
+    <video id="camera" width="300" height="300" playsinline autoplay muted></video>
 
-    <!-- Button to start decoding QR code from the video -->
-    <button id="start-decoding">Start Decoding QR Code</button>
+    <!-- Button to start camera and decoding QR code -->
+    <button id="start-camera">Start Camera</button>
+    <button id="start-decoding" style="display:none;">Start Decoding QR Code</button>
 
     <!-- Output for the decoded QR code data -->
     <p id="qr-result">QR Code Data: <span id="qr-data"></span></p>
@@ -22,19 +23,24 @@
         // Get the necessary elements
         const video = document.getElementById('camera');
         const qrDataOutput = document.getElementById('qr-data');
+        const startCameraBtn = document.getElementById('start-camera');
         const startDecodingBtn = document.getElementById('start-decoding');
 
         // Create an instance of QrcodeDecoder
         const qr = new QrcodeDecoder();
 
-        // Access the user's camera
-        navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
-            .then(stream => {
-                video.srcObject = stream;
-            })
-            .catch(err => console.error("Error accessing camera: ", err));
+        // Access the user's camera on button click
+        startCameraBtn.addEventListener('click', () => {
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+                .then(stream => {
+                    video.srcObject = stream;
+                    startCameraBtn.style.display = 'none';
+                    startDecodingBtn.style.display = 'block'; // Show the decode button
+                })
+                .catch(err => console.error("Error accessing camera: ", err));
+        });
 
-        // Start decoding QR code from video when the button is clicked
+        // Start decoding QR code from video when the decoding button is clicked
         startDecodingBtn.addEventListener('click', () => {
             qr.decodeFromVideo(video).then(res => {
                 if (res.data) {
