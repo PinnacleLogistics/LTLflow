@@ -20,6 +20,7 @@
     <!-- Div to show the scanner -->
     <div id="scanner-container"></div>
     <input type="button" id="btn" value="Start/Stop the scanner" />
+    <p id="barcode-result">Barcode will appear here</p>
 
     <script>
         var _scannerIsRunning = false;
@@ -102,7 +103,9 @@
             });
 
             Quagga.onDetected(function (result) {
-                console.log("Barcode detected and processed: [" + result.codeResult.code + "]", result);
+                var code = result.codeResult.code;
+                console.log("Barcode detected and processed: [" + code + "]", result);
+                document.getElementById("barcode-result").textContent = "Detected Barcode: " + code;
             });
         }
 
