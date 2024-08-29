@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Javascript Barcode Reader</title>
+    <meta charset="UTF-8" />
+    <script src="//unpkg.com/javascript-barcode-reader"></script>
+</head>
+<body>
+    <h1>Barcode Reader</h1>
+    <input type="file" accept="image/*" id="fileInput" capture="environment">
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const image = new Image();
+                    image.src = e.target.result;
+                    image.onload = async function() {
+                        try {
+                            const code = await javascriptBarcodeReader({
+                                image: image,
+                                barcode: 'code-93',
+                                options: {
+                                    // useAdaptiveThreshold: true // Uncomment if needed
+                                    // singlePass: true // Uncomment if needed
+                                }
+                            });
+                            console.log("Barcode:", code);
+                        } catch (err) {
+                            console.log("Error reading barcode:", err);
+                        }
+                    };
+                    image.onerror = function() {
+                        console.log("Failed to load image.");
+                    };
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html>
