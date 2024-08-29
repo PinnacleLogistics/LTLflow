@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Javascript Barcode Reader</title>
+    <title>Barcode Reader</title>
     <meta charset="UTF-8" />
     <script src="//unpkg.com/javascript-barcode-reader"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Barcode Reader</h1>
-    <input type="file" accept="image/*" id="fileInput" capture="environment">
+    
+    <!-- <input type="file" accept="image/*" id="fileInput" capture="environment"> -->
+     <div class="input_containers">
+        <h1>Barcode Reader</h1>
+        <label class="mylabel" for="barcodeimage">Take a photo or upload</label>
+        <input type="file" id="barcodeimage" style="display:none;">
+        <p id="log"></p>
+    </div>
     <script>
-        document.getElementById('fileInput').addEventListener('change', function(event) {
+        document.getElementById('barcodeimage').addEventListener('change', function(event) {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
@@ -26,13 +33,13 @@
                                     // singlePass: true // Uncomment if needed
                                 }
                             });
-                            console.log("Barcode:", code);
+                            document.getElementById('log').innerText = `Barcode: ${code}`
                         } catch (err) {
-                            console.log("Error reading barcode:", err);
+                            document.getElementById('log').innerText = "Barcode not recognized"
                         }
                     };
                     image.onerror = function() {
-                        console.log("Failed to load image.");
+                        document.getElementById('log').innerText = "Failed to load image."
                     };
                 };
                 reader.readAsDataURL(file);
