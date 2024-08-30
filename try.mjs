@@ -64,7 +64,7 @@ let btnboxes = null;
                       <label class="mylabel" for="packingList${i}">Click Here to Upload Picture 2</label>
                       <input type="file" id="packingList${i}" style="display:none;" multiple>
                       <p>Packing List</p>
-                      <div id="packingListfilepicked${i}"></div>
+                      <p id="packingListfilepicked${i}"></p>
                   </div>
               </div>`;
             $('#pallet').append(palletDiv);
