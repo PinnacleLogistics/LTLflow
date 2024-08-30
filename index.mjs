@@ -231,7 +231,7 @@ async function submitForm(){
 
     formData.append('palletdet', JSON.stringify(palletdet));
     formData.append('pallet', JSON.stringify(pallet));
-    formData.append('warehouse', "Bedtech@pinnacleteam.com");
+    formData.append('warehouse', "Bedtech");
 
     for (let i = 0; i < pallet.length; i++) {
       // console.log('here', pallet[i].palletScaleimg, pallet[i].sidePalletimg != null)
