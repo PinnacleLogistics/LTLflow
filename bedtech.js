@@ -170,10 +170,10 @@ async function submitForm(){
     if(noofPallet > 0) {
         for (let index = 0; index < noofPallet; index++) {
             let pictureSidePalletDisplay = $(`#pictureSidePalletDisplay${index}`)[0].files[0];
-            let length = $(`#Length${index}`).val('1');
-            let width = $(`#Width${index}`).val('1');
-            let height = $(`#Height${index}`).val('1');
-            let weight = $(`#Weight${index}`).val('1')
+            let length = $(`#Length${index}`).val();
+            let width = $(`#Width${index}`).val();
+            let height = $(`#Height${index}`).val();
+            let weight = $(`#Weight${index}`).val()
             if (length == '' || width == '' || height  == '' || weight == ''){
               $('#log').text(`There are fields not filled on Pallet No. ${index + 1}`);
               $('#log').show();
