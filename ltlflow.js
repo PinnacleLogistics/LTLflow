@@ -210,7 +210,7 @@ async function submitForm(){
     formData.append('palletdet', JSON.stringify(palletdet));
     formData.append('pallet', JSON.stringify(pallet));
     formData.append('warehouse', "Bedtech");
-    formData.append('sendTo', "orders@bedtech.com");
+    formData.append('sendTo', "nick@pinnacleteam.com");
 
     for (let i = 0; i < pallet.length; i++) {
       if (pallet[i].pictureSidePalletDisplayfile != null ) {
