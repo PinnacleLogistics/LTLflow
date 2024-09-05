@@ -8,87 +8,104 @@ let btnboxes = null;
 
 (function() {
 
-  $('#saleOrderNumber, #numberOfPallet').on('blur', function() {
-    const saleOrderNumber = $('#saleOrderNumber').val();
-    const numberOfPallet = $('#numberOfPallet').val();
+$('#saleOrderNumber, #numberOfPallet').on('blur', function() {
+  const saleOrderNumber = $('#saleOrderNumber').val();
+  let numberOfPallet = $('#numberOfPallet').val();
 
-    if (saleOrderNumber && numberOfPallet) {
-      $('#Send').show();
-      $('#log').text('');
-      $('.palletChecklistContainer').show();
-      noofPallet = numberOfPallet
-      allFilesMap = {};
-      for (let index = 0; index < noofPallet; index++) {
-        $(`#packingListfilepicked${index}`).empty();
-      }
-      $('.palletContainer').remove();
-      for (let i = 0; i < numberOfPallet; i++) {
-          const palletDiv = `
-            <div class="pallet-info palletContainer">
-                <h5 id="title">Pallet No. ${i+1}</h5>
-                <div class="row ">
-                    <div class="col">
-                      <div class="input-quote">
-                        <input type="text" id="Length${i}"  class="input-populated">
-                        <label for="Length${i}">Length</label>
-                      </div>    
-                    </div>
-                    <div class="col">
-                      <div class="input-quote">
-                        <input type="text" id="Width${i}" class="input-populated">
-                        <label for="Width${i}">Width</label>
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="input-quote">
-                        <input type="text" id="Height${i}" class="input-populated">
-                        <label for="Height${i}">Height</label>
-                      </div>    
-                    </div>
-                </div>
-                <div class="row ">
-                    <div class="col">
-                      <div class="input-quote">
-                        <input type="text" id="Weight${i}" class="input-populated">
-                        <label for="Weight${i}">Weight</label>
-                      </div>
-                    </div>
-                </div>
-                <div class="row ">
-                  <div class="col">
-                      <div class="input_containers">
-                        <label class="mylabel" for="pictureSidePalletDisplay${i}">Click Here to Upload Picture 1</label>
-                        <input type="file" id="pictureSidePalletDisplay${i}" style="display:none;">
-                        <p>Pallet on scale with weight display visible</p>
-                      </div>
-                      
-                    </div>
-                </div>
-                <div class="input_containers">
-                    <label class="mylabel" for="packingList${i}">Click Here to Upload Picture 2</label>
-                    <input type="file" id="packingList${i}" style="display:none;" multiple>
-                    <p>Packing List</p>
-                    <p id="packingListfilepicked${i}"></p>
-                </div>
-            </div>`;
-          $('#pallet').append(palletDiv);
-          $(`#Weight${i}, #Height${i}, #Length${i}, #Width${i}`).on('input', function() {
-              var value = $(this).val();
-              value = value.replace(/[^0-9.]/g, '');
-              if ((value.match(/\./g) || []).length > 1) {
-                  value = value.replace(/\.+$/, '');
-              }
-              $(this).val(value);
-          });
-          $(`#pictureSidePalletDisplay${i}`).on("change", function() {
-              const fileName = $(this).prop("files")[0]?.name;
-              const label = $(`label[for=pictureSidePalletDisplay${i}]`);
-              label.text(fileName || "Click Here to Upload Picture 1");
-          });
-          setupFileInput(i);
+  numberOfPallet = parseInt(numberOfPallet, 10);
+
+  if (isNaN(numberOfPallet) || numberOfPallet <= 0) {
+    $('#Send').hide();
+    return; 
+  }
+
+  if (saleOrderNumber && numberOfPallet) {
+    $('#Send').show();
+    $('#log').text('');
+    $('.palletChecklistContainer').show();
+
+    let currentPalletCount = $('.palletContainer').length;
+
+    if (numberOfPallet < currentPalletCount) {
+      for (let i = numberOfPallet; i < currentPalletCount; i++) {
+        $(`.palletContainer:eq(${i})`).remove();
+        delete allFilesMap[i];
       }
     }
-  });
+
+    // If the new pallet count is greater, append new pallets
+    for (let i = currentPalletCount; i < numberOfPallet; i++) {
+      const palletDiv = `
+        <div class="pallet-info palletContainer">
+          <h5 id="title">Pallet No. ${i + 1}</h5>
+          <div class="row">
+            <div class="col">
+              <div class="input-quote">
+                <input type="text" id="Length${i}" class="input-populated">
+                <label for="Length${i}">Length</label>
+              </div>
+            </div>
+            <div class="col">
+              <div class="input-quote">
+                <input type="text" id="Width${i}" class="input-populated">
+                <label for="Width${i}">Width</label>
+              </div>
+            </div>
+            <div class="col">
+              <div class="input-quote">
+                <input type="text" id="Height${i}" class="input-populated">
+                <label for="Height${i}">Height</label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="input-quote">
+                <input type="text" id="Weight${i}" class="input-populated">
+                <label for="Weight${i}">Weight</label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="input_containers">
+                <label class="mylabel" for="pictureSidePalletDisplay${i}">Click Here to Upload Picture 1</label>
+                <input type="file" id="pictureSidePalletDisplay${i}" style="display:none;">
+                <p>Pallet on scale with weight display visible</p>
+              </div>
+            </div>
+          </div>
+          <div class="input_containers">
+            <label class="mylabel" for="packingList${i}">Click Here to Upload Picture 2</label>
+            <input type="file" id="packingList${i}" style="display:none;" multiple>
+            <p>Packing List</p>
+            <p id="packingListfilepicked${i}"></p>
+          </div>
+        </div>`;
+
+      $('#pallet').append(palletDiv);
+
+      $(`#Weight${i}, #Height${i}, #Length${i}, #Width${i}`).on('input', function() {
+        var value = $(this).val();
+        value = value.replace(/[^0-9.]/g, '');
+        if ((value.match(/\./g) || []).length > 1) {
+          value = value.replace(/\.+$/, '');
+        }
+        $(this).val(value);
+      });
+
+      $(`#pictureSidePalletDisplay${i}`).on('change', function() {
+        const fileName = $(this).prop('files')[0]?.name;
+        const label = $(`label[for=pictureSidePalletDisplay${i}]`);
+        label.text(fileName || 'Click Here to Upload Picture 1');
+      });
+
+      setupFileInput(i);
+    }
+  }
+});
+
+
 
   $('#Send').on('click',async function() {
     if (checkbtns()){
@@ -210,7 +227,7 @@ async function submitForm(){
     formData.append('palletdet', JSON.stringify(palletdet));
     formData.append('pallet', JSON.stringify(pallet));
     formData.append('warehouse', "Bedtech");
-    formData.append('sendTo', "nick@pinnacleteam.com");
+    formData.append('sendTo', "vallejo.rw@gmail.com");
 
     for (let i = 0; i < pallet.length; i++) {
       if (pallet[i].pictureSidePalletDisplayfile != null ) {
