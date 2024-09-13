@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Enhanced Barcode Scanner Web App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Include Bootstrap CSS for improved UI -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <style>
+        /* Custom styles */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 20px;
+        }
+        #video {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            border: 1px solid #ccc;
+            margin: 0 auto;
+        }
+        #result, #history, #productInfo {
+            margin-top: 20px;
+            color: #333;
+        }
+        #flashlightButton {
+            margin: 10px;
+            padding: 10px 20px;
+        }
+        #history ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #history li {
+            margin: 5px 0;
+        }
+        .product-info {
+            text-align: left;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        .product-info h2 {
+            font-size: 1.5em;
+        }
+        .product-info p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Enhanced Barcode Scanner Web App</h1>
+    <video id="video" playsinline></video>
+    <div id="result">Initializing scanner...</div>
+    <button id="flashlightButton" class="btn btn-primary">Toggle Flashlight</button>
+    <div id="productInfo" class="product-info"></div>
+    <div id="history">
+        <h2>Scanned Barcodes:</h2>
+        <ul id="barcodeList"></ul>
+    </div>
+<!-- Include QuaggaJS library from CDN -->
+    <script src="https://unpkg.com/@ericblade/quagga2@1.2.6/dist/quagga.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <audio id="beepSound" src="https://www.soundjay.com/buttons/sounds/beep-07.mp3" preload="auto"></audio>
+<script>
+        // JavaScript code for the barcode scanner web app
+        let scanning = false;
+        let flashlightOn = false;
+        let track;
+const resultElement = document.getElementById('result');
+        const barcodeList = document.getElementById('barcodeList');
+        const flashlightButton = document.getElementById('flashlightButton');
+        const productInfoElement = document.getElementById('productInfo');
+        const beepSound = document.getElementById('beepSound');
+let scannedBarcodes = [];
+// Load scanned barcodes from localStorage
+        window.addEventListener('load', () => {
+            const storedBarcodes = JSON.parse(localStorage.getItem('scannedBarcodes'));
+            if (storedBarcodes) {
+                scannedBarcodes = storedBarcodes;
+                storedBarcodes.forEach(code => {
+                    addBarcodeToList(code);
+                });
+            }
+            startScanner();
+        });
+function startScanner() {
+            if (navigator.mediaDevices && typeof navigator.mediaDevices.getUserMedia === 'function') {
+                Quagga.init({
+                    inputStream: {
+                        name: "Live",
+                        type: "LiveStream",
+                        target: document.querySelector('#video'),
+                        constraints: {
+                            facingMode: "environment",
+                            aspectRatio: { min: 1, max: 2 },
+                            focusMode: "continuous",
+                            zoom: true
+                        }
+                    },
+                    decoder: {
+                        readers: [
+                            "code_128_reader",
+                            "ean_reader",
+                            "ean_8_reader",
+                            "code_39_reader",
+                            "code_39_vin_reader",
+                            "codabar_reader",
+                            "upc_reader",
+                            "upc_e_reader",
+                            "i2of5_reader",
+                            "2of5_reader",
+                            "code_93_reader"
+                        ]
+                    }
+                }, function (err) {
+                    if (err) {
+                        console.error(err);
+                        resultElement.textContent = "Error initializing scanner: " + err;
+                        return;
+                    }
+                    resultElement.textContent = "Scanning...";
+                    Quagga.start();
+                    scanning = true;
+// Get the video track for flashlight control
+                    const trackList = Quagga.CameraAccess.getActiveTrack();
+                    if (trackList && trackList.getCapabilities) {
+                        track = trackList;
+                    } else {
+                        console.warn("Flashlight control not supported.");
+                    }
+                });
+Quagga.onDetected(function (data) {
+                    const code = data.codeResult.code;
+                    if (!scannedBarcodes.includes(code)) {
+                        saveBarcode(code);
+                        fetchProductInfo(code);
+                    }
+                    resultElement.textContent = 'Last Scanned: ' + code;
+                    provideFeedback();
+                });
+            } else {
+                resultElement.textContent = "Camera not supported by this browser.";
+            }
+        }
+function toggleFlashlight() {
+            if (track && track.getCapabilities) {
+                const capabilities = track.getCapabilities();
+                if (capabilities.torch) {
+                    flashlightOn = !flashlightOn;
+                    track.applyConstraints({
+                        advanced: [{ torch: flashlightOn }]
+                    });
+                } else {
+                    alert("Flashlight not available on this device.");
+                }
+            } else {
+                alert("Flashlight control not supported.");
+            }
+        }
+flashlightButton.addEventListener('click', toggleFlashlight);
+function saveBarcode(code) {
+            scannedBarcodes.push(code);
+            localStorage.setItem('scannedBarcodes', JSON.stringify(scannedBarcodes));
+            addBarcodeToList(code);
+        }
+function addBarcodeToList(code) {
+            const listItem = document.createElement('li');
+            listItem.textContent = code;
+            barcodeList.appendChild(listItem);
+        }
+function fetchProductInfo(barcode) {
+            // Use the proxy server hosted on Render
+            fetch(`https://your-render-app-url.onrender.com/api/product?barcode=${barcode}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.products && data.products.length > 0) {
+                        const product = data.products[0];
+                        displayProductInfo(product);
+                    } else {
+                        productInfoElement.textContent = 'Product information not found.';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching product info:', error);
+                    productInfoElement.textContent = 'Error fetching product information.';
+                });
+        }
+function displayProductInfo(product) {
+            productInfoElement.innerHTML = `
+                <h2>Product Information:</h2>
+                <p><strong>Name:</strong> ${product.product_name || 'N/A'}</p>
+                <p><strong>Brand:</strong> ${product.brand || 'N/A'}</p>
+                <p><strong>Category:</strong> ${product.category || 'N/A'}</p>
+                <p><strong>Description:</strong> ${product.description || 'N/A'}</p>
+            `;
+        }
+function provideFeedback() {
+            // Vibration
+            if (navigator.vibrate) {
+                navigator.vibrate(200);
+            }
+            // Sound
+            beepSound.play();
+        }
+    </script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</body>
+</html>
