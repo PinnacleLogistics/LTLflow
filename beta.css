@@ -1,0 +1,256 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+*{
+    font-family: "Poppins", sans-serif;
+}
+#photo-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin-top: 20px;
+}
+p{
+  font-size: 12px;
+}
+.input_containers{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5px;
+}
+.photo {
+    margin: 10px;
+    border: 2px solid #ddd;
+    padding: 5px;
+    border-radius: 5px;
+    position: relative;
+    cursor: pointer;
+}
+.photo img {
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+}
+.delete-btn {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    cursor: pointer;
+    font-size: 12px;
+}
+label {
+  color: white;
+}
+
+.mylabel {
+  border: 1px solid #e5e5e5;
+  border-radius: 15px;
+  padding: 5px 10px;
+  font-family: 'Helvetica', sans-serif;
+  transition: .5s;
+  font-size: 12px;
+  font-family: "Poppins", sans-serif;
+  word-wrap: break-word;
+  word-break: break-all;
+  color: white;
+  background-color: #CBB26A;
+}
+
+.mylabel:hover {
+  cursor: pointer;
+  background-color: #CBB26A;
+}
+
+.banding-container {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-radius: 10px;
+  flex-wrap: nowrap; /* Prevent wrapping */
+}
+
+.ptags {
+  display: flex;
+  align-items: flex-start;
+  flex-grow: 1;
+  margin-right: 15px;
+  font-size: 18px;
+  color: #fffefe;
+  width: 70%;
+}
+
+.mybts {
+  background-color: #e0e0e0;
+  color: #000000; 
+  border-radius: 5px; 
+  padding: 9px 20px; 
+  font-size: 10px; 
+  margin-left: 10px; 
+  width: 30%;
+}
+
+
+@media (max-width: 600px) {
+  .banding-container {
+    flex-wrap: nowrap; /* Ensure buttons don't wrap */
+  }
+
+  .ptags {
+    font-size: 16px; /* Slightly reduce font size on smaller screens */
+  }
+
+  .mybts {
+    padding: 8px 16px; /* Slightly reduce padding on smaller screens */
+    font-size: 16px;
+  }
+}
+
+.mybts2 {
+  border-radius: 15px;
+  padding: 13px; 
+  font-size: 14px; 
+  font-weight: bold;
+  text-align: center;
+  width: 90%;
+  margin-bottom: 10px;
+  color: white;
+  background-color: #CBB26A;
+}
+#Send:hover{
+  background-color: #a38f54;
+}
+
+.input-route, .input-quote {
+  position: relative;
+  margin: 14px 0;
+  color: #6a6a6a;
+}
+.pallet-info {
+    
+    margin: 10px 0px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+}
+.info-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.info-box {
+    height: 50px;
+    background-color: #e9ecef;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.image-placeholder {
+    height: 100px;
+    background-color: #e9ecef;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.palletChecklistContainer{
+  margin: 14px 0;
+  display: none;
+}
+
+.input-quote .input-needs-input {
+  background-color: #d1fae5; /* Light green background */
+  color: #2c3e50; /* Green text */
+  font-weight: bold;
+}
+
+/* Input field styles */
+.input-quote .input-populated {
+  background-color: #f3f4f6; /* Light gray */
+  color: #2c3e50; /* Gray text */
+  font-weight: bold;
+}
+
+.input-quote .input-pre-filled {
+  background-color: #ffedd5; /* Light orange background */
+  color: #2c3e50; /* Orange text */
+  font-weight: bold;
+}
+
+.input-route label, .input-quote label{
+  position: absolute;
+  top: 20px;
+  left: 10px;
+  transform: translateY(-50%);
+  font-size: 14px;
+  padding: 0 5px;
+  pointer-events: none;
+  transition: .2s;
+}
+
+.input-route input,
+.input-quote input,
+.input-route textarea {
+  width: 100%;
+  height: 40px;
+  font-size: 12px;
+  color: #000000;
+  padding: 10px;
+  background: transparent;
+  border: 1.2px solid #000;
+  outline: none;
+  border-radius: 5px;
+  resize: none;
+}
+
+.input-route textarea {
+  height: 150px; /* Adjust height for textarea */
+}
+
+.input-route input:focus ~ label,
+.input-route input:valid ~ label,
+.input-quote input:focus ~ label,
+.input-quote input:valid ~ label,
+.input-route textarea:focus ~ label,
+.input-route textarea:valid ~ label {
+  top: -2px;
+  font-size: 12px;
+  background: #fff;
+  color: #000;
+  padding: 0 5px;
+  left: 10px;
+}
+
+.packinglist {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.packinglist p {
+    margin: 0;
+    padding: 5px;
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    font-size: 10px;
+}
+
+.delete-file {
+    margin-left: 10px;
+    cursor: pointer;
+    color: red;
+}
