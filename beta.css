@@ -11,6 +11,15 @@
 p{
   font-size: 12px;
 }
+#log{
+  font-size: 20px;
+  padding: 5px 10px;
+  border-radius: 10px;
+  margin-top: 5px;
+  color: black;
+  background-color: #CBB26A;
+  display: none;
+}
 .input_containers{
   display: flex;
   flex-direction: column;
@@ -120,6 +129,7 @@ label {
   text-align: center;
   width: 90%;
   margin-bottom: 10px;
+  margin-top: 10px;
   color: white;
   background-color: #CBB26A;
 }
