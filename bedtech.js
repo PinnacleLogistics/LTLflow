@@ -226,8 +226,8 @@ async function submitForm(){
 
     formData.append('palletdet', JSON.stringify(palletdet));
     formData.append('pallet', JSON.stringify(pallet));
-    formData.append('warehouse', "Bedtech");
-    formData.append('sendTo', "vallejo.rw@gmail.com");
+    formData.append('warehouse', "Bedtech - AZ");
+    formData.append('sendTo', "orders@bedtech.com");
     formData.append('customerID', "50757-P1");
 
     for (let i = 0; i < pallet.length; i++) {
@@ -248,7 +248,7 @@ async function submitForm(){
   $('#log').text('Sending pallets please wait...');
   $('#Send').hide();
   $('#log').show();
-  fetch('http://localhost:3000/v1/', {
+  fetch('https://tryexpress-1jl5.onrender.com/v1/', {
       method: 'POST',
       body: formData
   })
