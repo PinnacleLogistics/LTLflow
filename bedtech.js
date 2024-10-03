@@ -124,6 +124,7 @@ function checkbtns(){
     return true
   }
   $('#log').text('There are unchecked items on checklist section');
+  $('#log').show();
 }
 
 function btn(){
