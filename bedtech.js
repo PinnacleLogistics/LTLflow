@@ -192,6 +192,11 @@ async function submitForm(){
     if(noofPallet > 0) {
         for (let index = 0; index < noofPallet; index++) {
             let pictureSidePalletDisplay = $(`#pictureSidePalletDisplay${index}`)[0].files[0];
+            if(!pictureSidePalletDisplay){
+              $('#log').text(`Pictures not attached on Pallet No. ${index + 1} - Pallet on scale`);
+              $('#log').show();
+              return;
+            }
             let length = $(`#Length${index}`).val();
             let width = $(`#Width${index}`).val();
             let height = $(`#Height${index}`).val();
@@ -228,18 +233,22 @@ async function submitForm(){
     formData.append('palletdet', JSON.stringify(palletdet));
     formData.append('pallet', JSON.stringify(pallet));
     formData.append('warehouse', "Bedtech - AZ");
-    formData.append('sendTo', "orders@bedtech.com");
+    formData.append('sendTo', "vallejo.rw@gmail.com");
     formData.append('customerID', "50757-P1");
 
     for (let i = 0; i < pallet.length; i++) {
       if (pallet[i].pictureSidePalletDisplayfile != null ) {
           formData.append('attachments[]', pallet[i].pictureSidePalletDisplayfile);
       }
-      // console.log((allFilesMap.'0'));
+    
       if (allFilesMap[`${i}`].length > 0){
         for (let j = 0; j < allFilesMap[`${i}`].length; j++) {
           formData.append('attachments[]', allFilesMap[`${i}`][j]);
         }
+      }else{
+        $('#log').text(`Pictures not attached on Pallet No. ${i + 1} - Packing List`);
+        $('#log').show();
+        return;
       }
     }
 
