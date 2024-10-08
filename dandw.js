@@ -223,8 +223,8 @@ async function submitForm(){
     formData.append('palletdet', JSON.stringify(palletdet));
     formData.append('pallet', JSON.stringify(pallet));
     formData.append('warehouse', "D&W Silks");
-    formData.append('sendTo', "vallejo.rw@gmail.com"); //p_deeley@dwsilks.com
-    formData.append('customerID', "");
+    formData.append('sendTo', "p_deeley@dwsilks.com"); //p_deeley@dwsilks.com
+    formData.append('customerID', "51420-P1");
 
     for (let i = 0; i < pallet.length; i++) {
       if (pallet[i].pictureSidePalletDisplayfile != null ) {
@@ -246,9 +246,9 @@ async function submitForm(){
 // https://tryexpress-1jl5.onrender.com
 // http://localhost:3000
   $('#log').text('Sending pallets please wait...');
-  $('#Send').hide();
+  // $('#Send').hide();
   $('#log').show();
-  fetch('https://tryexpress-1jl5.onrender.com/v1/', {
+  fetch('https://tryexpress-1jl5.onrender.com/v1', {
       method: 'POST',
       body: formData
   })
