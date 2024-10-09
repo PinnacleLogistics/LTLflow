@@ -246,7 +246,7 @@ async function submitForm(){
 // https://tryexpress-1jl5.onrender.com
 // http://localhost:3000
   $('#log').text('Sending pallets please wait...');
-  // $('#Send').hide();
+  $('#Send').hide();
   $('#log').show();
   fetch('https://tryexpress-1jl5.onrender.com/v1', {
       method: 'POST',
