@@ -19,6 +19,7 @@ p{
   color: black;
   background-color: #CBB26A;
   display: none;
+  text-align: center;
 }
 .input_containers{
   display: flex;
@@ -80,9 +81,19 @@ label {
 .banding-container {
   display: flex;
   align-items: center;
-  padding: 15px;
+  padding: 10px;
   border-radius: 10px;
   flex-wrap: nowrap; /* Prevent wrapping */
+  border: 1px solid white;
+  margin-bottom: 10px;
+}
+
+.client-note{
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid white;
+  margin-bottom: 10px;
+  background-color: white;
 }
 
 .ptags {
@@ -175,6 +186,11 @@ label {
 
 .palletChecklistContainer{
   margin: 14px 0;
+  display: none;
+}
+
+#clientnotecontainer{
+  margin-top: 10px ;
   display: none;
 }
 
