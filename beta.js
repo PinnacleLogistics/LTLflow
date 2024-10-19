@@ -253,7 +253,7 @@ async function submitForm(){
   $('#Send').hide();
   $('#log').show();
   $('#clientnotecontainer').hide();
-  fetch('http://localhost:3000/v1/', {
+  fetch('https://tryexpress-1jl5.onrender.com/v1/', {
       method: 'POST',
       body: formData
   })
