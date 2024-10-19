@@ -16,12 +16,14 @@ $('#saleOrderNumber, #numberOfPallet').on('blur', function() {
 
   if (isNaN(numberOfPallet) || numberOfPallet <= 0) {
     $('#Send').hide();
+    $('#clientnotecontainer').hide();
     return; 
   }
 
   if (saleOrderNumber && numberOfPallet) {
     $('#Send').show();
     $('#log').text('');
+    $('#clientnotecontainer').show();
     $('.palletChecklistContainer').show();
 
     let currentPalletCount = $('.palletContainer').length;
@@ -175,6 +177,7 @@ async function submitForm(){
     const formData = new FormData();
     let saleOrderNumber = $('#saleOrderNumber').val();
     let numberOfPallet = $('#numberOfPallet').val();
+    let clientNote = $('#clientnote').val();
     let pallet = [];
     
     let palletdet = {
@@ -183,7 +186,8 @@ async function submitForm(){
         btnbanding: btnbanding,
         btncornerProtectorsUse: btncornerProtectorsUse,
         btnShrinkWrapped: btnShrinkWrapped,
-        btnboxes: btnboxes
+        btnboxes: btnboxes,
+        note : clientNote
     };
 
     let noofPallet = parseInt(numberOfPallet);
@@ -248,7 +252,8 @@ async function submitForm(){
   $('#log').text('Sending pallets please wait...');
   $('#Send').hide();
   $('#log').show();
-  fetch('https://tryexpress-1jl5.onrender.com/v1/', {
+  $('#clientnotecontainer').hide();
+  fetch('http://localhost:3000/v1/', {
       method: 'POST',
       body: formData
   })
@@ -279,6 +284,7 @@ async function submitForm(){
       $('#numberOfPallet').val('');
       $('.palletContainer').remove();
       $('.palletChecklistContainer').hide();
+      $('#clientnote').val('');
       $('#btnbandingUsedYes').css('background-color', '#D9D9D9');
       $('#btnbandingUsedNo').css('background-color', '#D9D9D9');
       $('#btncornerProtectorsUseNo').css('background-color', '#D9D9D9');

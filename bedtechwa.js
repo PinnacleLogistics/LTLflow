@@ -19,14 +19,14 @@ $('#saleOrderNumber, #numberOfPallet').on('blur', function() {
 
   if (isNaN(numberOfPallet) || numberOfPallet <= 0) {
     $('#Send').hide();
-    $('#clientnotecontainer').hide()
+    $('#clientnotecontainer').hide();
     return; 
   }
 
   if (saleOrderNumber && numberOfPallet) {
     $('#Send').show();
     $('#log').text('');
-    $('#clientnotecontainer').show()
+    $('#clientnotecontainer').show();
     $('.palletChecklistContainer').show();
 
     let currentPalletCount = $('.palletContainer').length;
@@ -274,7 +274,7 @@ async function submitForm(){
 // http://localhost:3000
   $('#log').text('Sending pallets please wait...');
   $('#Send').hide();
-  $('#clientnotecontainer').hide()
+  $('#clientnotecontainer').hide();
   $('#log').show();
   fetch('https://tryexpress-1jl5.onrender.com/v1', {
       method: 'POST',

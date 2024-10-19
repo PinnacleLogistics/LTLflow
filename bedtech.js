@@ -4,7 +4,7 @@ let btncornerProtectorsUse = null;
 let btnShrinkWrapped = null;
 let btnboxes = null;
 
- let allFilesMap = {};
+let allFilesMap = {};
 
 (function() {
 
@@ -16,12 +16,14 @@ $('#saleOrderNumber, #numberOfPallet').on('blur', function() {
 
   if (isNaN(numberOfPallet) || numberOfPallet <= 0) {
     $('#Send').hide();
+    $('#clientnotecontainer').hide();
     return; 
   }
 
   if (saleOrderNumber && numberOfPallet) {
     $('#Send').show();
     $('#log').text('');
+    $('#clientnotecontainer').show();
     $('.palletChecklistContainer').show();
 
     let currentPalletCount = $('.palletContainer').length;
@@ -176,6 +178,7 @@ async function submitForm(){
     const formData = new FormData();
     let saleOrderNumber = $('#saleOrderNumber').val();
     let numberOfPallet = $('#numberOfPallet').val();
+    let clientNote = $('#clientnote').val();
     let pallet = [];
     
     let palletdet = {
@@ -184,7 +187,8 @@ async function submitForm(){
         btnbanding: btnbanding,
         btncornerProtectorsUse: btncornerProtectorsUse,
         btnShrinkWrapped: btnShrinkWrapped,
-        btnboxes: btnboxes
+        btnboxes: btnboxes,
+        note : clientNote
     };
 
     let noofPallet = parseInt(numberOfPallet);
@@ -258,6 +262,7 @@ async function submitForm(){
   $('#log').text('Sending pallets please wait...');
   $('#Send').hide();
   $('#log').show();
+  $('#clientnotecontainer').hide();
   fetch('https://tryexpress-1jl5.onrender.com/v1', {
       method: 'POST',
       body: formData
@@ -289,13 +294,16 @@ async function submitForm(){
       $('#numberOfPallet').val('');
       $('.palletContainer').remove();
       $('.palletChecklistContainer').hide();
+      $('#clientnote').val('');
       $('#btnbandingUsedYes').css('background-color', '#D9D9D9');
       $('#btnbandingUsedNo').css('background-color', '#D9D9D9');
       $('#btncornerProtectorsUseNo').css('background-color', '#D9D9D9');
       $('#btncornerProtectorsUseyes').css('background-color', '#D9D9D9');
       $('#btnShrinkWrappedNo').css('background-color', '#D9D9D9');
-      $('#btnShrinkWrappedYes').css('background-color', '#D9D9D9');$('#btnboxesNo').css('background-color', '#D9D9D9');
+      $('#btnShrinkWrappedYes').css('background-color', '#D9D9D9');
+      $('#btnboxesNo').css('background-color', '#D9D9D9');
       $('#btnboxesYes').css('background-color', '#D9D9D9');
+      
       console.log('Data sent successfully:', data);
   })
   .catch(error => {
