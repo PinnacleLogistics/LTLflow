@@ -26,6 +26,7 @@ p{
   flex-direction: column;
   align-items: center;
   margin-top: 5px;
+  justify-content: center;
 }
 .photo {
     margin: 10px;
@@ -61,8 +62,8 @@ label {
 
 .mylabel {
   border: 1px solid #e5e5e5;
-  border-radius: 15px;
-  padding: 5px 10px;
+  border-radius: 13px;
+  padding: 5px 15px;
   font-family: 'Helvetica', sans-serif;
   transition: .5s;
   font-size: 12px;
@@ -71,6 +72,7 @@ label {
   word-break: break-all;
   color: white;
   background-color: #CBB26A;
+  text-align: center;
 }
 
 .mylabel:hover {
@@ -140,7 +142,6 @@ label {
   text-align: center;
   width: 90%;
   margin-bottom: 10px;
-  margin-top: 10px;
   color: white;
   background-color: #CBB26A;
 }
@@ -190,9 +191,14 @@ label {
 }
 
 #clientnotecontainer{
-  margin-top: 10px ;
   display: none;
 }
+
+#clientnote{
+  
+}
+
+
 
 .input-quote .input-needs-input {
   background-color: #d1fae5; /* Light green background */
