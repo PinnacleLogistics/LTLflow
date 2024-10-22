@@ -22,20 +22,21 @@
   <div class="container-fluid">
     <div class="col">
       <div class="row">
-        <label for="saleOrderNumber" id="labelsaleOrderNumber" >Sales Order #</label>
-        <div class="input-quote">
-          <input type="text" id="saleOrderNumber" class="input-populated">  
-          
-        </div>    
+        <div class="col">
+            <div class="input-quote">
+              <input type="text" id="saleOrderNumber" class="input-populated">  
+              <label for="saleOrderNumber" id="labelsaleOrderNumber" >Sales Order #</label>
+            </div>
+        </div>
+          <div class="col">
+              <div class="input-quote">
+              <input type="text" id="numberOfPallet" class="input-populated">
+              <label for="numberOfPallet" id="labelnumberOfPallet">Number of Pallets</label>
+            </div> 
+          </div>
+         
       </div>
-      <div class="row">
-        <label for="numberOfPallet" id="labelnumberOfPallet">Number of Pallets</label>
-        <div class="input-quote">
-          <input type="text" id="numberOfPallet" class="input-populated">
-          
-        </div>    
-      </div>
-      <div class="palletChecklistContainer">
+      <div class="palletChecklistContainer" style="margin-top: 0px;">
         <div class="row">
           <div class="col">
             <div class="banding-container" style="border: 1px solid white; margin-bottom: 4px;">
@@ -77,20 +78,20 @@
       
     </div>
   </div>
-  <div id="pallet" class="container-fluid">
+  <div id="pallet" class="container-fluid" style="margin-top: 0px;">
 
   </div>
-  <div class="container-fluid" id="clientnotecontainer" >
+  <div class="container-fluid" id="clientnotecontainer" style="margin-top: 25px;">
     <div class="col">
      <div class="row">
-        <label for="clientnote" id="labelclientnote" >Notes</label>
         <div class="input-quote">
           <input type="text" id="clientnote" class="input-populated">  
+          <label for="clientnote" id="labelclientnote" >Notes</label>
         </div>    
       </div>
     </div>
   </div>
-  <div class="container-fluid d-flex justify-content-center flex-column align-items-center">
+  <div class="container-fluid d-flex justify-content-center flex-column align-items-center" >
         <p id="log"></p>
         <button id="Send" class="mybts2" style="display: none;">Send to Office for Booking</button>
   </div>

@@ -39,7 +39,7 @@ $('#saleOrderNumber, #numberOfPallet').on('blur', function() {
     for (let i = currentPalletCount; i < numberOfPallet; i++) {
       const palletDiv = `
         <div class="pallet-info palletContainer">
-          <h5 id="title">Pallet No. ${i + 1}</h5>
+          <h5 id="title">Pallet ${i + 1}</h5>
           <div class="row">
             <div class="col">
               <div class="input-quote">
@@ -71,16 +71,14 @@ $('#saleOrderNumber, #numberOfPallet').on('blur', function() {
           <div class="row">
             <div class="col">
               <div class="input_containers">
-                <label class="mylabel" for="pictureSidePalletDisplay${i}">Click Here to Take or Upload Picture 1</label>
+                <label class="mylabel" for="pictureSidePalletDisplay${i}">Click Here to Take or Upload Picture 1 <span style="display:block">Pallet on Scale with Weight Display Visible</span></label>
                 <input type="file" id="pictureSidePalletDisplay${i}" style="display:none;">
-                <p>Picture 1: Pallet on Scale with Weight Display Visible</p>
               </div>
             </div>
           </div>
           <div class="input_containers">
-            <label class="mylabel" for="packingList${i}">Click Here to Take or Upload Picture 2</label>
+            <label class="mylabel" for="packingList${i}">Click Here to Take or Upload Picture 2 <span style="display:block">Packing List with Weight Display Visible</span></label>
             <input type="file" id="packingList${i}" style="display:none;" multiple>
-            <p>Picture 2: Packing List with Weight Display Visible</p>
             <p id="packingListfilepicked${i}"></p>
           </div>
         </div>`;
