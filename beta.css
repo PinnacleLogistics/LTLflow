@@ -129,7 +129,8 @@ label {
 }
 
 .pallet-info {
-    padding: 10px;
+    margin: 10px 0px auto;
+    padding: 12px;
     border: 1px solid #ccc;
     border-radius: 10px;
     background-color: #f8f9fa;
