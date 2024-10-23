@@ -21,13 +21,7 @@ p{
   display: none;
   text-align: center;
 }
-.input_containers{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 5px;
-  justify-content: center;
-}
+
 .photo {
     margin: 10px;
     border: 2px solid #ddd;
@@ -58,21 +52,6 @@ p{
 }
 label {
   color: white;
-}
-
-.mylabel {
-  border: 1px solid #e5e5e5;
-  border-radius: 13px;
-  padding: 5px 15px;
-  font-family: 'Helvetica', sans-serif;
-  transition: .5s;
-  font-size: 12px;
-  font-family: "Poppins", sans-serif;
-  word-wrap: break-word;
-  word-break: break-all;
-  color: white;
-  background-color: #CBB26A;
-  text-align: center;
 }
 
 .mylabel:hover {
@@ -150,9 +129,7 @@ label {
 }
 
 .pallet-info {
-    
-    margin: 10px 0px auto;
-    padding: 20px;
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 10px;
     background-color: #f8f9fa;
@@ -195,7 +172,7 @@ label {
 
 .input-route, .input-quote {
   position: relative;
-  margin: 14px 0;
+  margin: 9px 0;
   color: #6a6a6a;
 }
 
@@ -351,4 +328,36 @@ label {
   color: #FFFFFF; /* White text */
   padding: 0 5px;
   left: 10px;
+}
+
+.input_containers {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.weight-display {
+  flex-basis: 30%;
+  font-family: "Poppins", sans-serif;
+  font-size: 9px;
+  color: rgb(15, 15, 15);
+  padding: 5px;
+  text-align: left;
+}
+
+.mylabel {
+  flex-basis: 70%;
+  border: 1px solid #e5e5e5;
+  border-radius: 5px;
+  padding: 7px 20px;
+  font-family: 'Helvetica', sans-serif;
+  transition: .5s;
+  font-size: 10px;
+  font-family: "Poppins", sans-serif;
+  color: white;
+  background-color: #CBB26A;
+  text-align: center;
+  cursor: pointer;
 }

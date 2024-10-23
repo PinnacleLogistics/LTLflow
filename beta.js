@@ -68,17 +68,17 @@ $('#saleOrderNumber, #numberOfPallet').on('blur', function() {
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col">
-              <div class="input_containers">
-                <label class="mylabel" for="pictureSidePalletDisplay${i}">Click Here to Take or Upload Picture 1 <span style="display:block">Pallet on Scale with Weight Display Visible</span></label>
-                <input type="file" id="pictureSidePalletDisplay${i}" style="display:none;">
-              </div>
-            </div>
+          <div class="input_containers">
+            <span class="weight-display">Pallet on Scale with Weight Display Visible</span>
+            <label class="mylabel" for="pictureSidePalletDisplay${i}">Click Here to Take or Upload Picture 1</label>
+            <input type="file" id="pictureSidePalletDisplay${i}" style="display:none;">
           </div>
           <div class="input_containers">
-            <label class="mylabel" for="packingList${i}">Click Here to Take or Upload Picture 2 <span style="display:block">Packing List with Weight Display Visible</span></label>
+            <span class="weight-display">Packing List with Weight Display Visible</span>
+            <label class="mylabel" for="packingList${i}">Click Here to Take or Upload Picture 2</label>
             <input type="file" id="packingList${i}" style="display:none;" multiple>
+          </div>
+          <div style ="text-align : center; font-size : 5px; margin-top : 4px">
             <p id="packingListfilepicked${i}"></p>
           </div>
         </div>`;
