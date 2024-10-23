@@ -124,6 +124,7 @@ function checkbtns(){
     return true
   }
   $('#log').text('There are unchecked items on checklist section');
+  $('#log').show()
 }
 
 function btn(){
@@ -193,6 +194,11 @@ async function submitForm(){
     if(noofPallet > 0) {
         for (let index = 0; index < noofPallet; index++) {
             let pictureSidePalletDisplay = $(`#pictureSidePalletDisplay${index}`)[0].files[0];
+             if(!pictureSidePalletDisplay){
+              $('#log').text(`Pictures not attached on Pallet No. ${index + 1} - Pallet on scale`);
+              $('#log').show();
+              return;
+            }
             let length = $(`#Length${index}`).val();
             let width = $(`#Width${index}`).val();
             let height = $(`#Height${index}`).val();
@@ -241,6 +247,10 @@ async function submitForm(){
         for (let j = 0; j < allFilesMap[`${i}`].length; j++) {
           formData.append('attachments[]', allFilesMap[`${i}`][j]);
         }
+      }else{
+        $('#log').text(`Pictures not attached on Pallet No. ${i + 1} - Packing List`);
+        $('#log').show();
+        return;
       }
     }
 
