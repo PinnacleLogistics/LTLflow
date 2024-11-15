@@ -276,7 +276,7 @@ async function submitForm(){
     formData.append('pallet', JSON.stringify(pallet));
     formData.append('warehouse', "Valorence, LCC");
   //freight@valorence.com
-    formData.append('sendTo', "vallejo.rw@gmail.com");
+    formData.append('sendTo', "freight@valorence.com");
     formData.append('customerID', "Valorence, LCC");
 
     for (let i = 0; i < pallet.length; i++) {
@@ -302,7 +302,7 @@ async function submitForm(){
   $('#Send').hide();
   $('#log').show();
   $('#clientnotecontainer').hide();
-  fetch('http://localhost:3000/v1/', {
+  fetch('https://tryexpress-1jl5.onrender.com/v1/', {
       method: 'POST',
       body: formData
   })
