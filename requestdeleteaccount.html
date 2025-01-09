@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LTLFlow | Request Delete Link</title>
+    <link rel="icon" type="image/x-icon" href="./src/assets/ltllogo.ico">
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      .container {
+        max-width: 500px;
+        margin: auto;
+      }
+      input {
+        width: 100%;
+        padding: 8px;
+        margin: 8px 0;
+        box-sizing: border-box;
+      }
+      button {
+        padding: 10px 15px;
+        margin-right: 10px;
+      }
+      .message {
+        margin-top: 15px;
+        padding: 10px;
+        border-radius: 5px;
+      }
+      .success {
+        background-color: #d4edda;
+        color: #155724;
+      }
+      .error {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Hi there! This is the request delete account page</h1>
+      <p>Enter your email you want to delete, and we will send you a code via email.</p>
+      
+      <!-- Email Submission Form -->
+      <form id="email-form">
+        <input 
+          type="email" 
+          id="email-input" 
+          placeholder="Enter your email" 
+          required 
+        />
+        <button type="submit">Submit</button>
+      </form>
+      
+      <!-- Code Submission Form (Hidden by Default) -->
+      <form id="code-form" style="display: none;">
+        <input 
+          type="text" 
+          id="code-input" 
+          placeholder="Enter your code" 
+          required 
+        />
+        <button type="submit">Proceed Delete</button>
+        <button type="button" id="go-back-button">Go Back</button>
+      </form>
+      
+      <!-- Message Display -->
+      <div id="message" class="message" style="display: none;"></div>
+    </div>
+
+    <script>
+      // State Variables
+      let emailaddress = '';
+      let message = '';
+      let messageType = ''; // 'success' or 'error'
+      let showCode = false;
+      let code = '';
+      let user = null;
+
+      // DOM Elements
+      const emailForm = document.getElementById('email-form');
+      const emailInput = document.getElementById('email-input');
+      const codeForm = document.getElementById('code-form');
+      const codeInput = document.getElementById('code-input');
+      const goBackButton = document.getElementById('go-back-button');
+      const messageDiv = document.getElementById('message');
+
+      // Helper Functions
+      function displayMessage(text, type) {
+        messageDiv.textContent = text;
+        messageDiv.className = `message ${type}`;
+        messageDiv.style.display = 'block';
+        // Hide message after 7 seconds
+        setTimeout(() => {
+          messageDiv.style.display = 'none';
+        }, 7000);
+      }
+
+      function resetState() {
+        showCode = false;
+        emailaddress = '';
+        code = '';
+        user = null;
+        emailInput.value = '';
+        codeInput.value = '';
+        codeForm.style.display = 'none';
+        emailForm.style.display = 'block';
+      }
+
+      // Event Handlers
+      emailForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        emailaddress = emailInput.value.trim();
+        if (!emailaddress) {
+          displayMessage('Please enter a valid email address.', 'error');
+          return;
+        }
+
+        try {
+          const response = await fetch(`https://ltlappbackend-staging.onrender.com/LTLuser/requestdelete/${encodeURIComponent(emailaddress)}`);
+          const data = await response.json();
+          if (data.success) {
+            displayMessage(data.message, 'success');
+            showCode = true;
+            user = data.user;
+            emailForm.style.display = 'none';
+            codeForm.style.display = 'block';
+          } else {
+            displayMessage(data.message, 'error');
+          }
+        } catch (error) {
+          console.error(error);
+          displayMessage('An error occurred.', 'error');
+        }
+      });
+
+      codeForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        code = codeInput.value.trim();
+        if (!code) {
+          displayMessage('Please enter the code sent to your email.', 'error');
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append('emailaddress', user.emailaddress);
+        formData.append('code', code);
+
+        try {
+          const response = await fetch('https://ltlappbackend-staging.onrender.com/LTLuser/deletematchcode', {
+            method: 'POST',
+            body: formData,
+          });
+          const data = await response.json();
+          if (data.error) {
+            displayMessage(data.message || 'An error occurred.', 'error');
+          } else {
+            displayMessage('Account successfully deleted.', 'success');
+            resetState();
+          }
+        } catch (error) {
+          console.error(error);
+          displayMessage('An error occurred.', 'error');
+        }
+      });
+
+      goBackButton.addEventListener('click', () => {
+        resetState();
+        messageDiv.style.display = 'none';
+      });
+    </script>
+  </body>
+</html>
