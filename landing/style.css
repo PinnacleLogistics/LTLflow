@@ -1,0 +1,198 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: "Poppins", serif;
+    color: #fff;
+    background-color: #13212A; /* Updated main background color */
+    line-height: 1.6;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Header Styles */
+header {
+    background-color: #C2A345;
+    color: #fff;
+    padding: 10px 20px; /* Smaller padding for header */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+header .logo img {
+    width: 100px; /* Smaller logo */
+    border-radius: 5px;
+    box-shadow: 3px 5px 10px rgba(0, 0, 0, 0.17);
+    height: auto;
+}
+
+/* Navigation Styles */
+nav {
+    display: flex;
+    align-items: center;
+}
+nav ul {
+    list-style: none;
+    display: flex;
+}
+nav ul li {
+    margin-left: 20px;
+}
+nav ul li a {
+    color: #fff;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+nav ul li a:hover {
+    color: #000;
+}
+
+/* Hamburger Menu (Mobile) */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+.hamburger div {
+    width: 25px;
+    height: 3px;
+    background-color: #fff;
+    margin: 4px;
+    transition: all 0.3s ease;
+}
+
+/* Hero Section */
+.hero {
+    height: 100vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5)), url('assets/background.jpg') center/cover no-repeat; /* Updated background with transparency */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 20px;
+}
+.hero h1 {
+    font-size: 2.5rem; /* Adjusted size */
+    margin-bottom: 20px;
+}
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+.hero .cta-button {
+    padding: 15px 30px;
+    background-color: #C2A345;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.hero .cta-button:hover {
+    background-color: #ffffff;
+    color: #C2A345;
+}
+
+/* Video Section */
+.video-section {
+    padding: 60px 20px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+.video-section h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    max-width: 800px;
+    margin: 0 auto 40px auto;
+}
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Register Section */
+.register-section {
+    padding: 60px 20px;
+    text-align: center;
+    background-color: #fff;
+}
+.register-section h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+.register-section a.register-button {
+    padding: 15px 30px;
+    background-color: #C2A345;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.register-section a.register-button:hover {
+    background-color: #a68b3c;
+}
+
+/* Footer */
+footer {
+    padding: 20px;
+    background-color: #C2A345;
+    color: #fff;
+    text-align: center;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    header {
+        padding: 10px 15px;
+    }
+    .hero h1 {
+        font-size: 2rem;
+    }
+    .hero p {
+        font-size: 1rem;
+    }
+    nav ul {
+        position: absolute;
+        top: 50px;
+        left: -100%;
+        flex-direction: column;
+        background-color: #C2A345;
+        width: 100%;
+        transition: left 0.3s ease;
+    }
+    nav ul.active {
+        left: 0;
+    }
+    nav ul li {
+        margin: 15px 0;
+        text-align: center;
+    }
+    .hamburger {
+        display: flex;
+    }
+}
