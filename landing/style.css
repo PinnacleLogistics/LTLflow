@@ -40,20 +40,6 @@ header {
   font-weight: 600;
   text-decoration: none;
 }
-.hamburger {
-  display: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  flex-direction: column;
-  gap: 4px;
-}
-.hamburger span {
-  width: 25px;
-  height: 3px;
-  background-color: #fff;
-  transition: 0.3s;
-}
 
 /* First Block */
 .first-block {
@@ -129,18 +115,4 @@ footer {
   margin-top: 2rem;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .top-nav ul {
-    flex-direction: column;
-    gap: 1rem;
-    display: none;
-    margin-top: 1rem;
-  }
-  .top-nav ul.active {
-    display: flex;
-  }
-  .hamburger {
-    display: flex;
-  }
-}
+/* No Responsive Changes for Header Navigation */
