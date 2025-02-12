@@ -1,0 +1,104 @@
+/* BASIC RESET & FONTS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #FFFFFF;
+  color: #000000;
+}
+
+/* HEADER / LOGO */
+.header-bar {
+  background-color: #C2A345;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+}
+.logo-area {
+  max-width: 100px;
+}
+.logo {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 5px;
+   box-shadow: 5px 5px 5px black;
+
+}
+
+/* MAIN CONTENT */
+.content {
+  padding: 2rem;
+  text-align: center; /* Centers content horizontally */
+}
+.title-container {
+  margin-bottom: 2rem; /* Spacing below the heading/button block */
+}
+.title {
+  font-weight: 700;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+/* BUTTON STYLES */
+.gold-button {
+  background-color: #C2A345;
+  color: #ffffff;
+  border: none;
+  border-radius: 30px; /* "pill" shape */
+  padding: 0.8rem 1.5rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.gold-button:hover {
+  filter: brightness(1.1);
+}
+.gold-button:focus {
+  outline: none;
+}
+
+/* SUBTITLE & CREDENTIALS BOX */
+.subtitle {
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+.credentials-box {
+  background-color: #C2A345;
+  color: #ffffff;
+  display: inline-block;
+  text-align: left;
+  padding: 1rem 1.5rem;
+  border-radius: 4px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+.credentials-box p {
+  margin-bottom: 0.5rem;
+}
+.credentials-box p:last-child {
+  margin-bottom: 0;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .content {
+    padding: 1rem;
+  }
+  .title {
+    font-size: 1.5rem;
+  }
+  .subtitle {
+    font-size: 1rem;
+  }
+  .gold-button {
+    font-size: 0.9rem;
+    padding: 0.7rem 1.3rem;
+  }
+}
